@@ -1,0 +1,24 @@
+tosca_definitions_version: cloudify_dsl_1_3
+
+#
+# This blueprint starts the placement server on the cfy manager
+#
+
+imports:
+  - http://www.getcloudify.org/spec/cloudify/4.5/types.yaml
+  - plugins/placement-plugin/plugin.yaml
+
+
+node_templates:
+
+  host:
+    type: cloudify.nodes.Compute
+    properties:
+      agent_config:
+        install_method: none
+
+  placement_server:
+    type: placement_server
+    relationships:
+      - type: cloudify.relationships.contained_in
+        target: host  

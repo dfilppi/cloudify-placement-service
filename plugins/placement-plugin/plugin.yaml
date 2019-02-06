@@ -1,0 +1,25 @@
+plugins:
+  placement_plugin:
+    package_name: cloudify-placement-plugin
+    package_version: '0.1'
+    executor: central_deployment_agent
+    source: placement-plugin
+
+      
+node_types:
+
+  placement_server:
+    derived_from: cloudify.nodes.Root
+    properties:
+      port: 
+        description: listening port
+        default: 5000
+        type: integer
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        start:
+          implementation: placement_plugin.cfy_placement_plugin.tasks.start
+          executor: central_deployment_agent
+        stop:
+          implementation: placement_plugin.cfy_placement_plugin.tasks.stop
+          executor: central_deployment_agent
